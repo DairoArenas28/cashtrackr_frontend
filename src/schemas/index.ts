@@ -39,6 +39,14 @@ export const ResetPasswordSchema = z.object({
     path: ["password_confirmation"]
 });
 
+export const DraftBudgetSchema = z.object({
+    name: z.string()
+            .min(1, {message: 'El Nombre del presupuesto es obligatorio'}),
+    amount: z.coerce.
+            number({message: 'Cantidad no válida'})
+            .min(1, {message: 'Cantidad no válida'}),
+})
+
 export const SuccessSchema = z.string().min(1, {message: "Válor no válido"}) 
 
 export const ErrorResponseSchema = z.object({

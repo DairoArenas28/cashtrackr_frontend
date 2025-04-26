@@ -30,6 +30,15 @@ export const ForgotPasswordSchema = z.object({
             .email( {message: 'Email no válido'}),
 })
 
+export const ResetPasswordSchema = z.object({
+    password: z.string()
+            .min(8, {message: 'El Password debe ser de al menos 8 caracteres'}),
+    password_confirmation: z.string()
+}).refine((data) => data.password === data.password_confirmation, {
+    message: "Los Passwords no son iguales",
+    path: ["password_confirmation"]
+});
+
 export const SuccessSchema = z.string().min(1, {message: "Válor no válido"}) 
 
 export const ErrorResponseSchema = z.object({

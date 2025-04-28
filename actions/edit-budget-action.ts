@@ -1,33 +1,32 @@
 "use server"
 
 import getToken from "@/src/auth/token"
-import { DraftBudgetSchema, ErrorResponseSchema, SuccessSchema } from "@/src/schemas"
-import { revalidatePath } from "next/cache"
+import { Budget, DraftBudgetSchema, ErrorResponseSchema, SuccessSchema } from "@/src/schemas"
+import { revalidatePath, revalidateTag } from "next/cache"
 
 type ActionStateType = {
     errors: string[],
     success: string
 }
 
-export async function createBudget(provState: ActionStateType, formData: FormData) {
+export async function editBudget(budgetId: Budget['id'], prevState: ActionStateType, formData: FormData) {
     
-    const budget = DraftBudgetSchema.safeParse({
+    const budgetData = {
         name: formData.get('name'),
         amount: formData.get('amount')
-    })
-    if (!budget.success) {
+    }
+    const budget = DraftBudgetSchema.safeParse(budgetData)
+    if(!budget.success) {
         return {
-            errors: budget.error.issues.map(issue => issue.message),
+            errors: budget.error.issues.map(error => error.message),
             success: ''
         }
     }
     const token = await getToken()
-    const url = `${process.env.API_URL}/budgets`
-
-    const res = await fetch(url, {
-        method: 'POST',
+    const req = await fetch(`${process.env.API_URL}/budgets/${budgetId}`, {
+        method: 'PUT',
         headers: {
-            'Content-Type': 'application/json',
+            'Content-Type': 'application/json', 
             'Authorization': `Bearer ${token}`
         },
         body: JSON.stringify({
@@ -36,19 +35,17 @@ export async function createBudget(provState: ActionStateType, formData: FormDat
         })
     })
 
-    const json = await res.json()
-    
-    if (!res.ok) {
+    const json = await req.json()
+
+    if (!req.ok) {
         const { error } = ErrorResponseSchema.parse(json)
         return {
             errors: [error],
             success: ''
         }
     }
-
-    revalidatePath('/admin')
+    revalidateTag('/all-budgets')
     const success = SuccessSchema.parse(json)
-    
     return {
         errors: [],
         success

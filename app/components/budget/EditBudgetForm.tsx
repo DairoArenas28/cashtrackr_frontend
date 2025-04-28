@@ -1,17 +1,18 @@
-"use client"
 
-import { createBudget } from "@/actions/create-budget-action"
-import { error } from "console"
-import { use, useActionState, useEffect } from "react"
+"use client"
+import { Budget } from "@/src/schemas"
+import BudgetForm from "./BudgetForm"
+import { useActionState, useEffect } from "react"
+import { editBudget } from "@/actions/edit-budget-action"
 import ErrorMessage from "../ui/ErrorMessage"
 import { toast } from "react-toastify"
 import { useRouter } from "next/navigation"
-import BudgetForm from "./BudgetForm"
 
-export default function CreateBudgetForm() {
+export default function EditBudgetForm({budget}: {budget: Budget}) {
 
     const router = useRouter()
-    const [state, dispatch] = useActionState(createBudget, {
+    const editBudgetWithId = editBudget.bind(null, budget.id)
+    const [state, dispatch] = useActionState(editBudgetWithId, {
         errors: [],
         success: ''
     })
@@ -21,7 +22,7 @@ export default function CreateBudgetForm() {
             toast.success(state.success)
             router.push('/admin')
         }
-    })
+    }, [state])
 
     return (
         <form
@@ -29,14 +30,16 @@ export default function CreateBudgetForm() {
             noValidate
             action={dispatch}
         >
-            {state.errors.map( error => <ErrorMessage key={error}>{error}</ErrorMessage>)}
-            
-            <BudgetForm />
+            {state.errors.map(error => <ErrorMessage key={error}>{error}</ErrorMessage>)}
+
+            <BudgetForm 
+                budget={budget}
+            />
 
             <input
                 type="submit"
                 className="bg-amber-500 w-full p-3 text-white uppercase font-bold hover:bg-amber-600 cursor-pointer transition-colors"
-                value='Crear Presupuesto'
+                value='Guardar Cambios'
             />
         </form>
     )

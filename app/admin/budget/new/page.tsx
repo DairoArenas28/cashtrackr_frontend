@@ -21,7 +21,7 @@ export default function CreateBudgetPage() {
                 </Link>
             </div>
 
-            <div className='p-10 mt-10  shadow-lg border '>
+            <div className='p-10 mt-10 shadow-lg border'>
                 <CreateBudgetForm />
             </div>
         </>

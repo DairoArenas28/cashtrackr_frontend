@@ -11,7 +11,7 @@ export default function AdminMenu({ user }: { user: User }) {
   return (
     <Popover className="relative">
       <PopoverButton className="inline-flex items-center gap-x-1 text-sm font-semibold leading-6 p-1 rounded-lg bg-amber-500">
-          <Bars3Icon className='w-8 h-8 text-white ' />
+          <Bars3Icon className='w-8 h-8 text-white cursor-pointer' />
       </PopoverButton>
 
       <Transition

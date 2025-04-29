@@ -7,7 +7,8 @@ import { getBudget } from "@/src/services/budgets"
 
 
 export async function generateMetadata({ params }: { params: { id: string } }) : Promise<Metadata> {
-    const budget = await getBudget(params.id)
+    const { id } = await params
+    const budget = await getBudget(id)
     return {
         title: `CashTrackr - ${budget.name}`,
         description: `Edita el presupuesto ${budget.name}`

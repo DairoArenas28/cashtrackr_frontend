@@ -1,7 +1,8 @@
 "use server"
 
 import getToken from "@/src/auth/token"
-import { ErrorResponseSchema, SuccessSchema, DraftProfileSchema } from "@/src/schemas"
+import { ErrorResponseSchema, SuccessSchema, ProfileFormSchema } from "@/src/schemas"
+import { revalidatePath } from "next/cache"
 
 type ActionStateType = {
     errors: string[],
@@ -12,7 +13,7 @@ export async function updateProfile(prevState: ActionStateType, formData: FormDa
 
 console.log(formData)
 
-    const userProfile = DraftProfileSchema.safeParse({
+    const userProfile = ProfileFormSchema.safeParse({
         name: formData.get('name'),
         email: formData.get('email')
     })
@@ -51,7 +52,7 @@ console.log(formData)
     }
 
     const success = SuccessSchema.parse(json)
-
+    revalidatePath(`${process.env.API_URL}/admin/user`)
     return {
         errors: [],
         success

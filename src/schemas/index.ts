@@ -64,7 +64,7 @@ export const UpdatePasswordSchema = z.object({
     path: ["password_confirmation"]
 })
 
-export const DraftProfileSchema = z.object({
+export const ProfileFormSchema = z.object({
     name: z.string().min(1, {message: 'El nombre es obligatorio'}),
     email: z.string()   
             .min(1, {message: 'El Email es Obligatorio'})
@@ -107,6 +107,5 @@ export const BudgetsAPIResponseSchema = z.array(BudgetAPIResponseSchema.omit({ex
 
 export type User = z.infer<typeof UserSchema>
 export type Budget = z.infer<typeof BudgetAPIResponseSchema>
-export type DraftUser = z.infer<typeof DraftProfileSchema>
 export type DraftExpense = z.infer<typeof DraftExpenseSchema>
 export type Expense = z.infer<typeof ExpenseAPIResponseSchema>

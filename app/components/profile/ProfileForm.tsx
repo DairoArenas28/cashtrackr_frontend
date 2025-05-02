@@ -3,11 +3,10 @@ import { updateProfile } from "@/actions/update-profile-action"
 import { useActionState, useEffect, useState } from "react"
 import { toast } from "react-toastify"
 import ErrorMessage from "../ui/ErrorMessage"
-import { DraftUser } from "@/src/schemas"
+import { User } from "@/src/schemas"
 
-export default function ProfileForm() {
+export default function ProfileForm({user} : {user: User}) {
 
-    const [user, setUser] = useState<DraftUser>()
     const [state, dispatch] = useActionState(updateProfile, {
         errors: [],
         success: ''
@@ -18,14 +17,7 @@ export default function ProfileForm() {
             toast.success(state.success)
         }
     }, [state])
-
-    useEffect(() => {
-        const url = `${process.env.NEXT_PUBLIC_URL}/admin/api/user`
-        console.log('URL: ',url)
-        fetch(url)
-            .then(res => res.json())
-            .then(data => setUser(data))
-    }, [])
+    
     return (
         <>
             <form

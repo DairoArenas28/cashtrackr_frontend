@@ -54,6 +54,23 @@ export const DraftExpenseSchema = z.object({
     amount: z.coerce.number().min(1, {message: "Cantidad no válida"}),
 })
 
+export const UpdatePasswordSchema = z.object({
+    current_password: z.string().min(1, {message: 'El password no puede ir vacio'}),
+    password: z.string()
+            .min(8,  {message: 'El nuevo password debe ser de al menos 8 caracteres'}),
+    password_confirmation: z.string()
+}).refine((data) => data.password === data.password_confirmation, {
+    message: "Los password no son iguales",
+    path: ["password_confirmation"]
+})
+
+export const DraftProfileSchema = z.object({
+    name: z.string().min(1, {message: 'El nombre es obligatorio'}),
+    email: z.string()   
+            .min(1, {message: 'El Email es Obligatorio'})
+            .email( {message: 'Email no válido'}),
+})
+
 export const SuccessSchema = z.string().min(1, {message: "Válor no válido"}) 
 
 export const ErrorResponseSchema = z.object({
@@ -85,9 +102,11 @@ export const BudgetAPIResponseSchema = z.object({
     expenses: z.array(ExpenseAPIResponseSchema)
 })
 
+export const UserAPIResponseSchema = z.array(UserSchema)
 export const BudgetsAPIResponseSchema = z.array(BudgetAPIResponseSchema.omit({expenses: true}))
 
 export type User = z.infer<typeof UserSchema>
 export type Budget = z.infer<typeof BudgetAPIResponseSchema>
+export type DraftUser = z.infer<typeof DraftProfileSchema>
 export type DraftExpense = z.infer<typeof DraftExpenseSchema>
 export type Expense = z.infer<typeof ExpenseAPIResponseSchema>

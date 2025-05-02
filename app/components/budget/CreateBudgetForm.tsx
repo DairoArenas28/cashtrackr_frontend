@@ -1,8 +1,7 @@
 "use client"
 
 import { createBudget } from "@/actions/create-budget-action"
-import { error } from "console"
-import { use, useActionState, useEffect } from "react"
+import { useActionState, useEffect } from "react"
 import ErrorMessage from "../ui/ErrorMessage"
 import { toast } from "react-toastify"
 import { useRouter } from "next/navigation"
@@ -21,7 +20,7 @@ export default function CreateBudgetForm() {
             toast.success(state.success)
             router.push('/admin')
         }
-    })
+    }, [state, router])
 
     return (
         <form

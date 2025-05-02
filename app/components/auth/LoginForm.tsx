@@ -1,6 +1,5 @@
 "use client"
 import { authenticate } from "@/actions/authenticate-user-action";
-import { error } from "console";
 import { useActionState, useEffect } from "react";
 import { toast } from "react-toastify";
 

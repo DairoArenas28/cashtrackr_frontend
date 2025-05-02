@@ -4,8 +4,6 @@ import { toast } from 'react-toastify'
 import { useRouter } from 'next/navigation'
 import { PinInput, PinInputField } from '@chakra-ui/pin-input'
 import { startTransition, useActionState, useEffect, useState } from 'react'
-import ErrorMessage from '../ui/ErrorMessage'
-import SuccessMessage from '../ui/SuccessMessage'
 
 export default function ConfirmAccountForm() {
     const router = useRouter()
@@ -25,7 +23,7 @@ export default function ConfirmAccountForm() {
                 dispatch();
             });
         }
-    }, [isComplete])
+    }, [isComplete, dispatch])
 
     useEffect(() => {
         if(state.errors){
@@ -41,7 +39,7 @@ export default function ConfirmAccountForm() {
                 }
             })
         }
-    }, [state])
+    }, [state, router])
 
 
     const handleChange = (token: string) => {

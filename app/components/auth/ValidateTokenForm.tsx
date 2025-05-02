@@ -26,7 +26,7 @@ export default function ValidateTokenForm({setIsValidToken, token, setToken}: Va
                 dispatch()
             })
         }
-    }, [isComplete])
+    }, [isComplete, dispatch])
 
     useEffect(() => {
         if(state.errors) {
@@ -39,7 +39,7 @@ export default function ValidateTokenForm({setIsValidToken, token, setToken}: Va
             toast.success(state.success)
             setIsValidToken(true)
         }
-    }, [state])
+    }, [state, setIsValidToken])
     
     const handleChange = (token: string) => {
         setToken(token);

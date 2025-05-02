@@ -1,9 +1,9 @@
 import { verifySession } from "@/src/auth/dal"
 import getToken from "@/src/auth/token"
 
-export async function GET(request: Request, {params}: {params: {budgetId: string, expenseId: string}}) {
+export async function GET(request: Request, { params }: { params: Promise<{ budgetId: string; expenseId: string }> }) {
 
-    const { budgetId, expenseId } = params
+    const { budgetId, expenseId } = await params;
         
     await verifySession()
 

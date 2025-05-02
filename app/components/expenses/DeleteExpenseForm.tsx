@@ -31,14 +31,14 @@ export default function DeleteExpenseForm({ closeModal }: DeleteExpenseForm) {
         if(!Number.isInteger(+budgetId) || !Number.isInteger(+expenseId)) {
             closeModal()
         }
-    }, [])
+    }, [budgetId, expenseId])
 
     useEffect(() => {
         if(state.success){
             toast.success(state.success)
             closeModal()
         }
-    }, [state])
+    }, [state, closeModal])
 
     const handleClick = () => {
         startTransition(() => {

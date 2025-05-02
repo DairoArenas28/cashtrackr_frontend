@@ -9,6 +9,13 @@ export default function ConfirmPasswordForm() {
     const pathname = usePathname()
     const router = useRouter()
     const searchParams = useSearchParams()
+
+    const closeModal = () => {
+        const hideModal = new URLSearchParams(searchParams.toString())
+        hideModal.delete('deleteBudgetId')
+        router.replace(`${pathname}?${hideModal}`)
+    }
+
     const budgetId = +searchParams.get('deleteBudgetId')!
 
     const deleteBudgetWithPassword = deleteBudget.bind(null, budgetId)
@@ -23,13 +30,7 @@ export default function ConfirmPasswordForm() {
             closeModal()
             //router.push('/admin')
         }
-    }, [state])
-
-    const closeModal = () => {
-        const hideModal = new URLSearchParams(searchParams.toString())
-        hideModal.delete('deleteBudgetId')
-        router.replace(`${pathname}?${hideModal}`)
-    }
+    }, [state, closeModal])
 
     return (
         <>

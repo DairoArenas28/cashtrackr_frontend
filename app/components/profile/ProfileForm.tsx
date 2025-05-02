@@ -1,6 +1,6 @@
 "use client"
 import { updateProfile } from "@/actions/update-profile-action"
-import { useActionState, useEffect, useState } from "react"
+import { useActionState, useEffect } from "react"
 import { toast } from "react-toastify"
 import ErrorMessage from "../ui/ErrorMessage"
 import { User } from "@/src/schemas"
